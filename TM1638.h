@@ -33,7 +33,7 @@ class TM1638
 	
     // methods
 	//
-	TM1638(int dataPin,int sclkPin,int rclkPin);
+	TM1638(int dataPin,int sclkPin,int stbPin);
 	
 	void setLetter(int place,char letter);
 	void setDigital(int place,int digital);
@@ -46,17 +46,22 @@ class TM1638
 	
 	void closeDisplay();
 	void update();
+	void clear();
+	
+	void setDisplayLight();
+	void writeData(unsigned char data);
+	
 	
   private:
 	
-	static unsigned char LED_MODEL[17];
+	  static unsigned char LED_MODEL[17];
 	
-	// Default not display
-	static unsigned char LedData[8]; 
+	  // Default not display
+	  static unsigned char LedData[8]; 
 	
-	int DIO;        				// Arduino pin for Data	   数据引脚
-	int SCLK;						// Arduino pin for CLK     时钟引脚，高电平将数据串行移入
-	int RCLK;						// Arduino pin for LATCH   锁存引脚，高电平将锁存数据送到595引脚上
+	  int DIO;        		// Arduino pin for Data	   数据引脚
+	  int SCLK;						// Arduino pin for CLK     时钟引脚，高电平将数据串行移入
+	  int STB;						// Arduino pin for STB    片选引脚，高电平将锁存数据送到595引脚上
 };
 
 #endif
