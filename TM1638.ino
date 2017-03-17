@@ -5,16 +5,37 @@ TM1638 tm(2,3,4);
   void setup ()
     {
        delay(1000);
-       //Serial.begin(9600);
-        tm.setDigital(0,1);
-      // tm.setDigital(1,2);
-       //tm.update();
-         
+       Serial.begin(9600);
+
+      tm.displayFloat(124565.35,2);
+
+     /*
+       tm.setDigital(0,0);
+       tm.setDigital(1,1);
+       tm.setDigital(2,2);
+       tm.setDigital(3,3);
+       tm.setDigital(4,4);
+       tm.setDigital(5,5);
+       tm.setDigital(6,6);
+       tm.setDigital(7,7);
+
+       delay(1000);
+       tm.clear();
+       tm.displayInt(123);
+       
+       tm.setPoint(3);
+       */  
            
     }
     void loop()
     {
-      //tm.setDigital(1,0);
+      tm.scanKey();
+      delay(1000);
+      tm.displayFloat(124565.35,2);
+      for(int i = 0; i<4; i++)
+      {
+        Serial.print(tm.getKey(i));
+      }
     }
 
  

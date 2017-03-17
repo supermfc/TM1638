@@ -43,25 +43,30 @@ class TM1638
 
 	void displayInt(int num);
 	void displayFloat(float number,int prec);
-	
-	void closeDisplay();
+
+  //turn on  the display
+	void turnOnDisplay();
+  void turnOffDisplay();
+
+  void scanKey();
+  unsigned char getKey(int index);
+    
 	void update();
 	void clear();
 	
-	void setDisplayLight();
+	void setDisplayLight(int light);
 	void writeData(unsigned char data);
-	
 	
   private:
 	
 	  static unsigned char LED_MODEL[17];
-	
-	  // Default not display
+	 // Default not display
 	  static unsigned char LedData[8]; 
 	
 	  int DIO;        		// Arduino pin for Data	   数据引脚
 	  int SCLK;						// Arduino pin for CLK     时钟引脚，高电平将数据串行移入
 	  int STB;						// Arduino pin for STB    片选引脚，高电平将锁存数据送到595引脚上
+    unsigned char key[4];
 };
 
 #endif
