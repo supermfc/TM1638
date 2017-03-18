@@ -157,30 +157,34 @@ void TM1638::turnOffDisplay()
 {
     digitalWrite(STB,LOW);
     writeData(0x88);
-    digitalWrite(STB,HIGH);
+	digitalWrite(STB,HIGH);
 }
 
 void TM1638::turnOnDisplay()
 {
-   digitalWrite(STB,LOW);
-   writeData(0x8A);
-   digitalWrite(STB,HIGH);
+	digitalWrite(STB,LOW);
+	delayMicroseconds(5);
+	writeData(0x8A);
+	delayMicroseconds(5);
+	digitalWrite(STB,HIGH);
 }
 
 // the light scope is 0-7
 void TM1638::setDisplayLight(int light)
 {
-	  if(light>=0 || light <=7)
-   {
+	if(light>=0 && light <=7)
+	{
       digitalWrite(STB,LOW);
+      delayMicroseconds(5);
       writeData(0x80|light);
+      delayMicroseconds(5);
       digitalWrite(STB,HIGH);
-   }
+	}
 }
 
 void TM1638::writeData(unsigned char data)
 {
-	 shiftOut(DIO,SCLK,LSBFIRST,data);
+	shiftOut(DIO,SCLK,LSBFIRST,data);
 }
 
 //clear the display data
@@ -204,18 +208,14 @@ void TM1638::update()
 		
 		for (int j = 0; j < 8; j++)
 		{
-      temp = LedData[j] & ( 1 << (7-i) );                     //first get the high bit
-    	buff[i] = buff[i] | (temp << i) >> j;                  
+			temp = LedData[j] & ( 1 << (7-i) );                     //first get the high bit
+			buff[i] = buff[i] | (temp << i) >> j;                  
 		       
 		}
 		
 	}
 	
-	digitalWrite(STB,LOW);
-	writeData(0x8a);
-  digitalWrite(STB,HIGH);
- 
-	//writeData(0x40); //write data command
+ //writeData(0x40); //write data command
 	
 	digitalWrite(STB,LOW);
 	writeData(0xc0);   //set the reg display address to the 0x00
@@ -226,7 +226,7 @@ void TM1638::update()
 	{
     
 		writeData(buff[i]);
-   //Serial.println(buff[i]);
+		//Serial.println(buff[i]);
 		writeData(0x00);
 	}
 	digitalWrite(STB,HIGH);
@@ -236,21 +236,21 @@ void TM1638::update()
 void TM1638::scanKey()
 {
   //
-  digitalWrite(STB,LOW);
-  writeData(0x42);
-  delayMicroseconds(1);
-  pinMode(DIO,INPUT);
-  key[0] = shiftIn(DIO,SCLK,LSBFIRST);
-  key[1] = shiftIn(DIO,SCLK,LSBFIRST);
-  key[2] = shiftIn(DIO,SCLK,LSBFIRST);
-  key[3] = shiftIn(DIO,SCLK,LSBFIRST);
-  digitalWrite(STB,HIGH);
-  pinMode(DIO,OUTPUT);
+	digitalWrite(STB,LOW);
+	writeData(0x42);
+	delayMicroseconds(1);
+	pinMode(DIO,INPUT);
+	key[0] = shiftIn(DIO,SCLK,LSBFIRST);
+	key[1] = shiftIn(DIO,SCLK,LSBFIRST);
+	key[2] = shiftIn(DIO,SCLK,LSBFIRST);
+	key[3] = shiftIn(DIO,SCLK,LSBFIRST);
+	digitalWrite(STB,HIGH);
+	pinMode(DIO,OUTPUT);
 }
 
- unsigned char TM1638::getKey(int index)
- {
-   return key[index];
-  }
+unsigned char TM1638::getKey(int index)
+{
+	return key[index];
+}
 
 #endif

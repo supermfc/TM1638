@@ -1,14 +1,16 @@
 #include "TM1638.h"
 //the param is DATA pin,SCLK pin and STB pin
 TM1638 tm(2,3,4);
-  
+  int disint = 100;
   void setup ()
     {
        delay(1000);
        Serial.begin(9600);
+       tm.turnOnDisplay();
 
       tm.displayFloat(124565.35,2);
-
+      delay(1000);
+      tm.clear();
      /*
        tm.setDigital(0,0);
        tm.setDigital(1,1);
@@ -27,15 +29,35 @@ TM1638 tm(2,3,4);
        */  
            
     }
+    
     void loop()
     {
       tm.scanKey();
-      delay(1000);
-      tm.displayFloat(124565.35,2);
-      for(int i = 0; i<4; i++)
+
+      unsigned char c = tm.getKey(0);
+
+      if(c == 0x04)
       {
-        Serial.print(tm.getKey(i));
+         disint++;
+         while(c==0x04)
+         {
+         tm.scanKey();
+         c = tm.getKey(0);
+         }
+         tm.clear();
       }
+      if(c==0x40)
+      {
+         disint--;
+         while(c==0x40)
+         {
+         tm.scanKey();
+         c = tm.getKey(0);
+         }
+         tm.clear();
+      }
+      
+      tm.displayInt(disint);
     }
 
  

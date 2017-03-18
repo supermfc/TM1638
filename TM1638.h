@@ -1,7 +1,8 @@
 /*
- *  Tube display utilities for 74HC595 IC  
+ *  Tube display utilities for TM1638 IC  
  *  Code by DingBing in jiaozuo city henan province China
-
+ *	My QQ：396364218 and i love mcu & arduino.
+ *  welcome add my qq and study each other.
  *  This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
  *	the Free Software Foundation, either version 3 of the License, or
@@ -46,10 +47,10 @@ class TM1638
 
   //turn on  the display
 	void turnOnDisplay();
-  void turnOffDisplay();
+	void turnOffDisplay();
 
-  void scanKey();
-  unsigned char getKey(int index);
+	void scanKey();
+	unsigned char getKey(int index);
     
 	void update();
 	void clear();
@@ -59,13 +60,13 @@ class TM1638
 	
   private:
 	
-	  static unsigned char LED_MODEL[17];
-	 // Default not display
-	  static unsigned char LedData[8]; 
+	static unsigned char LED_MODEL[17];
+	// Default not display
+	static unsigned char LedData[8]; 
 	
-	  int DIO;        		// Arduino pin for Data	   数据引脚
-	  int SCLK;						// Arduino pin for CLK     时钟引脚，高电平将数据串行移入
-	  int STB;						// Arduino pin for STB    片选引脚，高电平将锁存数据送到595引脚上
+	int DIO;        		// Arduino pin for Data	   数据引脚
+	int SCLK;						// Arduino pin for CLK     时钟引脚，高电平将数据串行移入
+	int STB;						// Arduino pin for STB    片选引脚，高电平将锁存数据送到595引脚上
     unsigned char key[4];
 };
 
